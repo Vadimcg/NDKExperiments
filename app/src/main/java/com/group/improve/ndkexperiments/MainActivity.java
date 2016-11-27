@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    TextView tv;
+
     // Used to load the 'native-lib' library on application startup.
     static {
         System.loadLibrary("native-lib");
@@ -17,13 +19,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Example of a call to a native method
-        TextView tv = (TextView) findViewById(R.id.sample_text);
+        tv = (TextView) findViewById(R.id.sample_text);
         tv.setText(stringFromJNI());
+        this. callNativeMethods();
     }
 
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
+
+    private void callNativeMethods() {
+        int a = 10, b = 100;
+        int c = NativeAddition(a, b);
+        tv.setText(a + "+" + b + "=" + c);
+        c = NativeMultiplication(a, b);
+        tv.append("\n" + a + "x" + b + "=" + c);
+    }
+
+    public native int NativeAddition(int a, int b);
+    public native int NativeMultiplication(int a, int b);
     public native String stringFromJNI();
+
+
 }
