@@ -2,6 +2,7 @@ package com.group.improve.ndkexperiments;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,23 +19,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Example of a call to a native method
-        tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(stringFromJNI());
-        this. callNativeMethods();
+
+        Log.e("native",String.valueOf(this.passBooleanReturnBoolean(false)));
+        Log.e("native",String.valueOf(this.passIntReturnint(1)));
+        Log.e("native",String.valueOf(this.passDoubleReturnDouble(0.3)));
+        Log.e("native",String.valueOf(this.passByteReturnByte((byte)43)));
     }
 
 
-    private void callNativeMethods() {
-        int a = 10, b = 100;
-        int c = NativeAddition(a, b);
-        tv.setText(a + "+" + b + "=" + c);
-        c = NativeMultiplication(a, b);
-        tv.append("\n" + a + "x" + b + "=" + c);
-    }
+    public native boolean passBooleanReturnBoolean(boolean value);
+    public native int passIntReturnint(int value);
+    public native double passDoubleReturnDouble(double value);
+    public native byte passByteReturnByte(byte value);
 
-    public native int NativeAddition(int a, int b);
-    public native int NativeMultiplication(int a, int b);
+
     public native String stringFromJNI();
 
 
