@@ -37,6 +37,49 @@ JNIEXPORT jbyte JNICALL Java_com_group_improve_ndkexperiments_MainActivity_passB
     return ++value;
 }
 
+
+
+JNIEXPORT jstring JNICALL Java_com_group_improve_ndkexperiments_MainActivity_passStringReturnString(JNIEnv *env, jobject pObj, jstring value){
+    __android_log_print(ANDROID_LOG_INFO, "native", "print jstring: %s", value);
+
+    const char *str;
+    jboolean *isCopy;
+
+    str = env->GetStringUTFChars(value, isCopy);
+
+    __android_log_print(ANDROID_LOG_INFO, "native",
+                        "print UTF-8string: %s, %d", str, isCopy);
+
+    jsize length = env->GetStringUTFLength(value);
+
+    __android_log_print(ANDROID_LOG_INFO, "native",
+                        "UTF-8 string length (number of bytes): %d == %d", length, strlen(str));
+
+    __android_log_print(ANDROID_LOG_INFO, "native",
+                        "UTF-8 string ends with: %d %d", str[length], str[length+1]);
+
+    env->ReleaseStringUTFChars(value, str);
+
+    char nativeStr[100];
+
+    env->GetStringUTFRegion(value, 0, length, nativeStr);
+    __android_log_print(ANDROID_LOG_INFO, "native",
+                        "jstring converted to UTF-8 string and copied to native buffer: %s", nativeStr);
+
+    const char* newStr = "hello 安卓 Привет";
+    jstring ret = env->NewStringUTF(newStr);
+    jsize newStrLen = env->GetStringUTFLength(ret);
+
+    __android_log_print(ANDROID_LOG_INFO, "native",
+                        "UTF-8 string with Chinese and Russian characters: %s, string length (number of bytes) %d=%d",
+                        newStr, newStrLen, strlen(newStr));
+
+    return ret;
+}
+
+
+
+
 }
 
 

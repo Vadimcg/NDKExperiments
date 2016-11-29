@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         Log.e("native",String.valueOf(this.passIntReturnint(1)));
         Log.e("native",String.valueOf(this.passDoubleReturnDouble(0.3)));
         Log.e("native",String.valueOf(this.passByteReturnByte((byte)43)));
+        Log.e("native",String.valueOf(this.passStringReturnString("bla bla bla")));
     }
 
 
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     public native int passIntReturnint(int value);
     public native double passDoubleReturnDouble(double value);
     public native byte passByteReturnByte(byte value);
-
+    public native String passStringReturnString(String value);
 
     public native String stringFromJNI();
 
