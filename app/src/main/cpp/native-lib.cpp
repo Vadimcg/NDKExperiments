@@ -80,16 +80,33 @@ JNIEXPORT jstring JNICALL Java_com_group_improve_ndkexperiments_MainActivity_pas
 JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_localReference(JNIEnv *pEnv, jobject pObj, jstring pStringP, jboolean pDelete){
 
     jobject stStr;
-
     int i;
 
     for (i = 0; i < 100000; ++i) {
-
         stStr = pEnv->NewLocalRef(pStringP);
 
         if (pDelete) {
             pEnv->DeleteLocalRef(stStr);
         }
+    }
+}
+
+
+JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_globalReference(JNIEnv *pEnv, jobject pObj, jstring pStringP, jboolean pDelete){
+
+    static jstring stStr;
+    const char *str;
+    jboolean isCopy=true;
+
+    if (NULL == stStr) {
+        stStr = (jstring)pEnv->NewGlobalRef(pStringP);
+    }
+
+    str = pEnv->GetStringUTFChars(stStr, &isCopy);
+
+    if (pDelete) {
+        pEnv->DeleteGlobalRef(stStr);
+        stStr = NULL;
     }
 }
 
