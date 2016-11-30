@@ -110,7 +110,23 @@ JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_global
     }
 }
 
+JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_weakReference(JNIEnv *pEnv, jobject pObj, jstring pStringP, jboolean pDelete) {
 
+    static jstring stStr;
+    const char *str;
+    jboolean isCopy=true;
+
+    if (NULL == stStr) {
+        stStr = (jstring)pEnv->NewWeakGlobalRef(pStringP);
+    }
+
+    str = pEnv->GetStringUTFChars(stStr, &isCopy);
+
+    if (pDelete) {
+        pEnv->DeleteWeakGlobalRef(stStr);
+        stStr = NULL;
+    }
+}
 
 
 }

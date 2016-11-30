@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
         Log.e("native",String.valueOf(this.passByteReturnByte((byte)43)));
         Log.e("native",String.valueOf(this.passStringReturnString("bla bla bla")));
        // this.localReference("bla bla bla",true);
-        this.globalReference("bla bla bla",false);
+       // this.globalReference("bla bla bla",false);
+        this.weakReference("bla bla bla",false);
     }
 
 
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public native String passStringReturnString(String value);
     public native void localReference(String value,boolean flag);
     public native void globalReference(String value,boolean flag);
+    public native void weakReference(String value,boolean flag);
 
     public native String stringFromJNI();
 
