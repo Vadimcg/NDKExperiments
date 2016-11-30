@@ -30,13 +30,11 @@ JNIEXPORT jdouble JNICALL Java_com_group_improve_ndkexperiments_MainActivity_pas
     return value+0.5;
 }
 
-
-JNIEXPORT jbyte JNICALL Java_com_group_improve_ndkexperiments_MainActivity_passByteReturnByte(JNIEnv *env, jobject,jbyte value){
+JNIEXPORT jbyte JNICALL Java_com_group_improve_ndkexperiments_MainActivity_passByteReturnByte(JNIEnv *env, jobject,jbyte value) {
 
     __android_log_print(ANDROID_LOG_INFO, "native", "%d in %dbytes byte", value, sizeof(jbyte));
     return ++value;
 }
-
 
 
 JNIEXPORT jstring JNICALL Java_com_group_improve_ndkexperiments_MainActivity_passStringReturnString(JNIEnv *env, jobject pObj, jstring value){
@@ -48,7 +46,7 @@ JNIEXPORT jstring JNICALL Java_com_group_improve_ndkexperiments_MainActivity_pas
     str = env->GetStringUTFChars(value, isCopy);
 
     __android_log_print(ANDROID_LOG_INFO, "native",
-                        "print UTF-8string: %s, %d", str, isCopy);
+                        "print UTF-8string: %s, %d", value, isCopy);
 
     jsize length = env->GetStringUTFLength(value);
 
@@ -75,6 +73,24 @@ JNIEXPORT jstring JNICALL Java_com_group_improve_ndkexperiments_MainActivity_pas
                         newStr, newStrLen, strlen(newStr));
 
     return ret;
+}
+
+
+
+JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_localReference(JNIEnv *pEnv, jobject pObj, jstring pStringP, jboolean pDelete){
+
+    jobject stStr;
+
+    int i;
+
+    for (i = 0; i < 100000; ++i) {
+
+        stStr = pEnv->NewLocalRef(pStringP);
+
+        if (pDelete) {
+            pEnv->DeleteLocalRef(stStr);
+        }
+    }
 }
 
 
