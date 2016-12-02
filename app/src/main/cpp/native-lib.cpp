@@ -129,6 +129,20 @@ JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_weakRe
 }
 
 
+JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_AllocObjectDemo(JNIEnv *pEnv, jobject pObj){
+
+}
+
+JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_NewObjectDemo(JNIEnv *pEnv, jobject pObj){
+
+}
+
+JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_NewObjectADemo(JNIEnv *pEnv, jobject pObj){
+
+}
+
+
+
 }
 
 
