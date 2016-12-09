@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
        // this.localReference("bla bla bla",true);
        // this.globalReference("bla bla bla",false);
         this.weakReference("bla bla bla",false);
+        this.allocObjectDemo();
     }
 
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public native void localReference(String value,boolean flag);
     public native void globalReference(String value,boolean flag);
     public native void weakReference(String value,boolean flag);
+    public native void allocObjectDemo();
 
     public native String stringFromJNI();
 

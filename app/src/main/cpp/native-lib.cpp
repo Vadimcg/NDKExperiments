@@ -129,8 +129,12 @@ JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_weakRe
 }
 
 
-JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_AllocObjectDemo(JNIEnv *pEnv, jobject pObj){
+JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_allocObjectDemo(JNIEnv *pEnv, jobject pObj){
+    jclass classObj=pEnv->FindClass("com.group.improve.ndkexperiments.Helpers.Test");
+    //jmethodID methodid=pEnv->GetMethodID(classObj, "showMessege", "()Ljava/lang/String;");
 
+    __android_log_print(ANDROID_LOG_INFO, "native",
+                        "Java class value: %s", "bla");
 }
 
 JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_NewObjectDemo(JNIEnv *pEnv, jobject pObj){

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">NDKExperiments</string>
+    <string name="file_manager_selection_title">Select path</string>
+    <string name="file_manager_selection_action_settings">Settings</string>
+    <string name="file_manager_selection_free_of_total">Free %1$s of %2$s</string>
+    <string name="file_manager_error_path_incorrect">Current path is not correct!</string>
+    <string name="file_manager_error_file_incorrect">Current file is not suitable!</string>
+    <string name="file_manager_error_access">Error Access!</string>
 </resources>
