@@ -2,6 +2,7 @@ package com.group.improve.ndkexperiments;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,13 +18,8 @@ public class FileSelectionActivity extends AppCompatActivity {
     private FragmentTransaction fragmentTransaction = null;
     private DirectoryFragment mDirectoryFragment;
 
-    /**
-     * Путь до выбранного файла
-     */
-    public static String currentPath="";
-    public static void clearPath(){
-        currentPath="";
-    }
+
+    public static final String PATH="path";
 
 
     @Override
@@ -48,15 +44,18 @@ public class FileSelectionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                FileSelectionActivity.currentPath
-                           =((DirectoryFragment)fragmentManager.getFragments().get(0)).getCurrentPath();
+                String path=((DirectoryFragment)fragmentManager.getFragments().get(0)).getCurrentPath();
 
-                if(FileSelectionActivity.currentPath.isEmpty()){
+                if(path.isEmpty()){
                     mDirectoryFragment.showErrorBox(getString(R.string.file_manager_error_path_incorrect));
                     return;
                 }
 
-                finish();
+
+                Intent intent=new Intent(FileSelectionActivity.this,FileInfoActivity.class);
+                intent.putExtra(PATH,path);
+                FileSelectionActivity.this.startActivity(intent);
+
             }
         });
 

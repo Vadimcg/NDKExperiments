@@ -5,39 +5,39 @@
 
 extern "C" {
 
-jstring Java_com_group_improve_ndkexperiments_MainActivity_stringFromJNI(JNIEnv *env, jobject /* this */) {
+jstring Java_com_group_improve_ndkexperiments_FileInfoActivity_stringFromJNI(JNIEnv *env, jobject /* this */) {
     std::string hello = "Hello from C++";
     return env->NewStringUTF(hello.c_str());
 }
 
 
-JNIEXPORT jboolean JNICALL Java_com_group_improve_ndkexperiments_MainActivity_passBooleanReturnBoolean(JNIEnv *env, jobject,jboolean value){
+JNIEXPORT jboolean JNICALL Java_com_group_improve_ndkexperiments_FileInfoActivity_passBooleanReturnBoolean(JNIEnv *env, jobject,jboolean value){
 
     __android_log_print(ANDROID_LOG_INFO, "native", "%d in %dbytes  bool", value, sizeof(jboolean));
     return (!value);
 }
 
-JNIEXPORT jint JNICALL Java_com_group_improve_ndkexperiments_MainActivity_passIntReturnint(JNIEnv *env, jobject,jint value){
+JNIEXPORT jint JNICALL Java_com_group_improve_ndkexperiments_FileInfoActivity_passIntReturnint(JNIEnv *env, jobject,jint value){
 
     __android_log_print(ANDROID_LOG_INFO, "native", "%d in %dbytes  int", value, sizeof(jint));
     return ++value;
 }
 
 
-JNIEXPORT jdouble JNICALL Java_com_group_improve_ndkexperiments_MainActivity_passDoubleReturnDouble(JNIEnv *env, jobject,jdouble value){
+JNIEXPORT jdouble JNICALL Java_com_group_improve_ndkexperiments_FileInfoActivity_passDoubleReturnDouble(JNIEnv *env, jobject,jdouble value){
 
     __android_log_print(ANDROID_LOG_INFO, "native", "%d in %dbytes double", value, sizeof(jdouble));
     return value+0.5;
 }
 
-JNIEXPORT jbyte JNICALL Java_com_group_improve_ndkexperiments_MainActivity_passByteReturnByte(JNIEnv *env, jobject,jbyte value) {
+JNIEXPORT jbyte JNICALL Java_com_group_improve_ndkexperiments_FileInfoActivity_passByteReturnByte(JNIEnv *env, jobject,jbyte value) {
 
     __android_log_print(ANDROID_LOG_INFO, "native", "%d in %dbytes byte", value, sizeof(jbyte));
     return ++value;
 }
 
 
-JNIEXPORT jstring JNICALL Java_com_group_improve_ndkexperiments_MainActivity_passStringReturnString(JNIEnv *env, jobject pObj, jstring value){
+JNIEXPORT jstring JNICALL Java_com_group_improve_ndkexperiments_FileInfoActivity_passStringReturnString(JNIEnv *env, jobject pObj, jstring value){
     __android_log_print(ANDROID_LOG_INFO, "native", "print jstring: %s", value);
 
     const char *str;
@@ -77,7 +77,7 @@ JNIEXPORT jstring JNICALL Java_com_group_improve_ndkexperiments_MainActivity_pas
 
 
 
-JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_localReference(JNIEnv *pEnv, jobject pObj, jstring pStringP, jboolean pDelete){
+JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_FileInfoActivity_localReference(JNIEnv *pEnv, jobject pObj, jstring pStringP, jboolean pDelete){
 
     jobject stStr;
     int i;
@@ -92,7 +92,7 @@ JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_localR
 }
 
 
-JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_globalReference(JNIEnv *pEnv, jobject pObj, jstring pStringP, jboolean pDelete){
+JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_FileInfoActivity_globalReference(JNIEnv *pEnv, jobject pObj, jstring pStringP, jboolean pDelete){
 
     static jstring stStr;
     const char *str;
@@ -110,7 +110,7 @@ JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_global
     }
 }
 
-JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_weakReference(JNIEnv *pEnv, jobject pObj, jstring pStringP, jboolean pDelete) {
+JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_FileInfoActivity_weakReference(JNIEnv *pEnv, jobject pObj, jstring pStringP, jboolean pDelete) {
 
     static jstring stStr;
     const char *str;
@@ -129,7 +129,7 @@ JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_weakRe
 }
 
 
-JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_MainActivity_allocObjectDemo(JNIEnv *pEnv, jobject pObj){
+JNIEXPORT void JNICALL Java_com_group_improve_ndkexperiments_FileInfoActivity_allocObjectDemo(JNIEnv *pEnv, jobject pObj){
     jclass classObj=pEnv->FindClass("com.group.improve.ndkexperiments.Helpers.Test");
     //jmethodID methodid=pEnv->GetMethodID(classObj, "showMessege", "()Ljava/lang/String;");
 

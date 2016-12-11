@@ -225,20 +225,11 @@ public class DirectoryFragment extends Fragment {
                                 return;
                             }
                         }
+
                         if (file.length() == 0) {
                             return;
                         }
-                        if (file.toString().contains(chhosefileType[0]) ||
-                                file.toString().contains(chhosefileType[1]) ||
-                                file.toString().contains(chhosefileType[2]) ||
-                                file.toString().contains(chhosefileType[3]) ||
-                                file.toString().contains(chhosefileType[4])) {
-
-
-                            Log.d("VADIM_DEBUG", "File selected:" + file.toString());
-                            FileSelectionActivity.currentPath=file.getParent();
-                            getActivity().finish();
-                        } else {
+                        else {
                             showErrorBox(getString(R.string.file_manager_error_file_incorrect));
                             return;
                         }
