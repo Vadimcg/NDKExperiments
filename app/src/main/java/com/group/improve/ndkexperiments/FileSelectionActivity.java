@@ -18,16 +18,12 @@ public class FileSelectionActivity extends AppCompatActivity {
     private FragmentTransaction fragmentTransaction = null;
     private DirectoryFragment mDirectoryFragment;
 
-
     public static final String PATH="path";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_selection);
-
-
 
         ImageButton btnBack=(ImageButton)this.findViewById(R.id.imBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +46,6 @@ public class FileSelectionActivity extends AppCompatActivity {
                     mDirectoryFragment.showErrorBox(getString(R.string.file_manager_error_path_incorrect));
                     return;
                 }
-
 
                 Intent intent=new Intent(FileSelectionActivity.this,FileInfoActivity.class);
                 intent.putExtra(PATH,path);
@@ -82,7 +77,6 @@ public class FileSelectionActivity extends AppCompatActivity {
         });
         fragmentTransaction.add(R.id.fragment_container, mDirectoryFragment, "" + mDirectoryFragment.toString());
         fragmentTransaction.commit();
-
     }
 	
     @Override

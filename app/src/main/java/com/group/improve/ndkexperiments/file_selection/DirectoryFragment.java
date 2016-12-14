@@ -28,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.group.improve.ndkexperiments.FileInfoActivity;
 import com.group.improve.ndkexperiments.FileSelectionActivity;
 import com.group.improve.ndkexperiments.R;
 
@@ -43,6 +44,7 @@ public class DirectoryFragment extends Fragment {
             return "";
     }
 
+
     private ListView listView;
     private ListAdapter listAdapter;
     private TextView emptyView;
@@ -54,10 +56,6 @@ public class DirectoryFragment extends Fragment {
     private ArrayList<HistoryEntry> history = new ArrayList<HistoryEntry>();
     private HashMap<String, ListItem> selectedFiles = new HashMap<String, ListItem>();
     private long sizeLimit = 1024 * 1024 * 1024;
-
-    private String[] chhosefileType = {".mp4", ".avi",".webm",".ogg",".ogv"};
-
-    private static final String mMainFolder="AnySignJS";
 
     private class HistoryEntry {
         int scrollItem, scrollOffset;
@@ -230,8 +228,7 @@ public class DirectoryFragment extends Fragment {
                             return;
                         }
                         else {
-                            showErrorBox(getString(R.string.file_manager_error_file_incorrect));
-                            return;
+                            showFileInfoActivity(file.getAbsolutePath());
                         }
 
                     }
@@ -413,16 +410,9 @@ public class DirectoryFragment extends Fragment {
 
             //Если это деректория
             if (file.isDirectory()) {
-
-                if(file.getName().equals(mMainFolder)){
-                    item.icon = R.drawable.ic_folder_anysign;
-                    item.subtitle = "Folder";
-                }else{
-                    item.icon = R.drawable.ic_folder;
-                    item.subtitle = "Folder";
-                }
+                item.icon = R.drawable.ic_folder;
+                item.subtitle = "Folder";
             }
-            //
             else {
                 String fname = file.getName();
                 String[] sp = fname.split("\\.");
@@ -430,10 +420,8 @@ public class DirectoryFragment extends Fragment {
                 item.subtitle = formatFileSize(file.length());
                 fname = fname.toLowerCase();
 
-                if (fname.endsWith(".jpg") || fname.endsWith(".png")
-                        || fname.endsWith(".gif") || fname.endsWith(".jpeg")) {
-                    item.thumb = file.getAbsolutePath();
-                }
+                item.thumb = file.getAbsolutePath();
+
 
             }
             items.add(item);
@@ -546,33 +534,23 @@ public class DirectoryFragment extends Fragment {
                 String type = item.ext.toUpperCase().substring(0,
                         Math.min(item.ext.length(), 4));
 
-              /*  switch (type){
-                    case "mp4":{
-                        break;
-                    }
-                    case "":{
-                        break;
-                    }
-                    case "":{
-                        break;
-                    }
-                }*/
+
                 ((TextDetailDocumentsCell) convertView)
                         .setTextAndValueAndTypeAndThumb(item.title,
                                 item.subtitle, type, item.thumb, 0);
             }
-            // if (item.file != null && actionBar.isActionModeShowed()) {
-            // textDetailCell.setChecked(selectedFiles.containsKey(item.file.toString()),
-            // !scrolling);
-            // } else {
-            // textDetailCell.setChecked(false, !scrolling);
-            // }
+
             return convertView;
         }
     }
 
-    public void finishFragment() {
 
+    private void showFileInfoActivity(String path){
+        Intent intent=new Intent(this.getContext(),FileInfoActivity.class);
+        intent.putExtra(FileSelectionActivity.PATH,path);
+        this.getContext().startActivity(intent);
     }
+
+
 
 }
