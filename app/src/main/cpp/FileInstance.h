@@ -1,19 +1,20 @@
-//
-// Created by vadimcg on 13.12.16.
-//
+#import <algorithm>
+#import <string>
+
 
 #ifndef NDKEXPERIMENTS_FILEINSTANCE_H
 #define NDKEXPERIMENTS_FILEINSTANCE_H
 
-#import <string>
 
 class FileInstance {
 
 private:
 
-        int size_;
-        std::string name_;
-        std::string path_;
+    int size_;
+    std::string name_;
+    std::string path_;
+
+    std::string getFileNameFromPath(const std::string& filePath);
 
 public:
 

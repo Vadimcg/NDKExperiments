@@ -10,7 +10,7 @@ public class FileInfoActivity extends AppCompatActivity {
     TextView tv;
 
     static {
-        System.loadLibrary("native-lib");
+        System.loadLibrary("fileIO");
     }
 
     @Override
@@ -18,10 +18,11 @@ public class FileInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        Bundle p = getIntent().getExtras();
+        this.encryptFile(p.getString(FileSelectionActivity.PATH));
     }
 
 
-
+    public native void encryptFile(String path);
 
 }

@@ -6,9 +6,9 @@
 
 
 FileInstance::FileInstance(std::string& path_){
-    this->name_= nullptr;
+    this->name_= this->getFileNameFromPath(path_);
     this->size_=0;
-    this->path_=0;
+    this->path_=path_;
 }
 
 FileInstance::FileInstance(const FileInstance& value){
@@ -34,4 +34,19 @@ int FileInstance::getSize(){
 
 std::string FileInstance::getName(){
     return this->name_;
+}
+
+std::string FileInstance::getFileNameFromPath(const std::string& filePath) {
+
+    std::string fileName;
+
+    std::string::const_reverse_iterator it = std::find(filePath.rbegin(), filePath.rend(), '/');
+
+    if (it != filePath.rend()) {
+        fileName.assign(filePath.rbegin(), it);
+        std::reverse(fileName.begin(), fileName.end());
+        return fileName;
+    }
+    else
+        return fileName;
 }
