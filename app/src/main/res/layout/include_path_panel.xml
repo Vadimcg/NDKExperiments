@@ -25,14 +25,5 @@
         android:textSize="24sp"
         android:background="@color/anysign_trans" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/imOk"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_check"
-        android:background="@color/anysign_trans"
-        android:layout_marginRight="16dp" />
 
 </RelativeLayout>

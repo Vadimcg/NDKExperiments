@@ -35,25 +35,6 @@ public class FileSelectionActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton btnOk=(ImageButton)this.findViewById(R.id.imOk);
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String path=((DirectoryFragment)fragmentManager.getFragments().get(0)).getCurrentPath();
-
-                if(path.isEmpty()){
-                    mDirectoryFragment.showErrorBox(getString(R.string.file_manager_error_path_incorrect));
-                    return;
-                }
-
-                Intent intent=new Intent(FileSelectionActivity.this,FileInfoActivity.class);
-                intent.putExtra(PATH,path);
-                FileSelectionActivity.this.startActivity(intent);
-
-            }
-        });
-
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
