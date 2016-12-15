@@ -1,5 +1,6 @@
 package com.group.improve.ndkexperiments;
 
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,8 +19,10 @@ public class FileInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Bundle p = getIntent().getExtras();
-        this.encryptFile(p.getString(FileSelectionActivity.PATH));
+      /*  Bundle p = getIntent().getExtras();*/
+        //p.getString(FileSelectionActivity.PATH)
+
+        this.encryptFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/z.jpeg");
     }
 
 
