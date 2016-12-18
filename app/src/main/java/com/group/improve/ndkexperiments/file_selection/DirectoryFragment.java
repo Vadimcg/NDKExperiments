@@ -37,12 +37,6 @@ public class DirectoryFragment extends Fragment {
     private View fragmentView;
     private boolean receiverRegistered = false;
     private File currentDir;
-    public String getCurrentPath(){
-        if(this.currentDir!=null)
-            return this.currentDir.toString();
-        else
-            return "";
-    }
 
 
     private ListView listView;
@@ -52,9 +46,8 @@ public class DirectoryFragment extends Fragment {
     private DocumentSelectActivityDelegate delegate;
 
     private static String title_ = "";
-    private ArrayList<ListItem> items = new ArrayList<ListItem>();
-    private ArrayList<HistoryEntry> history = new ArrayList<HistoryEntry>();
-    private HashMap<String, ListItem> selectedFiles = new HashMap<String, ListItem>();
+    private ArrayList<ListItem> items = new ArrayList<>();
+    private ArrayList<HistoryEntry> history = new ArrayList<>();
     private long sizeLimit = 1024 * 1024 * 1024;
 
     private class HistoryEntry {
@@ -63,27 +56,29 @@ public class DirectoryFragment extends Fragment {
         String title;
     }
 
-    public static abstract interface DocumentSelectActivityDelegate {
-        public void didSelectFiles(DirectoryFragment activity, ArrayList<String> files);
-
-        public void startDocumentSelectActivity();
-
-        public void updateToolBarName(String name);
+    public  interface DocumentSelectActivityDelegate {
+         void updateToolBarName(String name);
     }
 
 
     public boolean onBackPressed_() {
+
         if (history.size() > 0) {
+
             HistoryEntry he = history.remove(history.size() - 1);
+
             title_ = he.title;
             updateName(title_);
+
             if (he.dir != null) {
                 listFiles(he.dir);
             } else {
                 listRoots();
             }
+
             listView.setSelectionFromTop(he.scrollItem, he.scrollOffset);
             return false;
+
         } else {
             return true;
         }
@@ -129,9 +124,6 @@ public class DirectoryFragment extends Fragment {
         }
     };
 
-    public void setDelegate(DocumentSelectActivityDelegate delegate) {
-        this.delegate = delegate;
-    }
 
     private class ListItem {
         int icon;
@@ -159,8 +151,10 @@ public class DirectoryFragment extends Fragment {
             filter.addAction(Intent.ACTION_MEDIA_UNMOUNTABLE);
             filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
             filter.addDataScheme("file");
+
             getActivity().registerReceiver(receiver, filter);
         }
+
         if (fragmentView == null) {
             fragmentView = inflater.inflate(R.layout.document_select_layout,
                     container, false);
@@ -180,43 +174,54 @@ public class DirectoryFragment extends Fragment {
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> adapterView, View view,
-                                        int i, long l) {
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
                     if (i < 0 || i >= items.size()) {
                         return;
                     }
+
                     ListItem item = items.get(i);
                     File file = item.file;
+
                     if (file == null) {
+
                         HistoryEntry he = history.remove(history.size() - 1);
                         title_ = he.title;
                         updateName(title_);
+
                         if (he.dir != null) {
                             listFiles(he.dir);
                         } else {
                             listRoots();
                         }
-                        listView.setSelectionFromTop(he.scrollItem,
-                                he.scrollOffset);
+
+                        listView.setSelectionFromTop(he.scrollItem, he.scrollOffset);
+
                     } else if (file.isDirectory()) {
+
                         HistoryEntry he = new HistoryEntry();
                         he.scrollItem = listView.getFirstVisiblePosition();
                         he.scrollOffset = listView.getChildAt(0).getTop();
                         he.dir = currentDir;
                         he.title = title_.toString();
                         updateName(title_);
+
                         if (!listFiles(file)) {
                             return;
                         }
+
                         history.add(he);
                         title_ = item.title;
                         updateName(title_);
                         listView.setSelection(0);
+
                     } else {
+
                         if (!file.canRead()) {
                             showErrorBox(getString(R.string.file_manager_error_access));
                             return;
                         }
+
                         if (sizeLimit != 0) {
                             if (file.length() > sizeLimit) {
                                 showErrorBox(getString(R.string.file_manager_error_access));
@@ -246,11 +251,15 @@ public class DirectoryFragment extends Fragment {
     }
 
     private void listRoots() {
+
         currentDir = null;
         items.clear();
+
         String extStorage = Environment.getExternalStorageDirectory()
                 .getAbsolutePath();
+
         ListItem ext = new ListItem();
+
         if (Build.VERSION.SDK_INT < 9
                 || Environment.isExternalStorageRemovable()) {
             ext.title = "SdCard";
@@ -258,11 +267,10 @@ public class DirectoryFragment extends Fragment {
             ext.title = "InternalStorage";
         }
 
-        //ExternalStorage папка
+        //Folder icon
         ext.icon = Build.VERSION.SDK_INT < 9
                 || Environment.isExternalStorageRemovable() ? R.drawable.ic_sd_storage
                 : R.drawable.ic_folder_open;
-
 
         ext.subtitle = getRootSubtitle(extStorage);
         ext.file = Environment.getExternalStorageDirectory();
@@ -292,26 +300,34 @@ public class DirectoryFragment extends Fragment {
                 }
                 result.add(info[1]);
             }
+
             reader.close();
+
             if (extDevice != null) {
                 result.removeAll(aliases.get(extDevice));
+
                 for (String path : result) {
                     try {
+
                         ListItem item = new ListItem();
+
                         if (path.toLowerCase().contains("sd")) {
                             ext.title = "SdCard";
                         } else {
                             ext.title = "ExternalStorage";
                         }
+
                         item.icon = R.drawable.ic_sd_storage;
                         item.subtitle = getRootSubtitle(path);
                         item.file = new File(path);
                         items.add(item);
+
                     } catch (Exception e) {
                         Log.e("tmessages", e.toString());
                     }
                 }
             }
+
         } catch (Exception e) {
             Log.e("tmessages", e.toString());
         }
@@ -323,44 +339,35 @@ public class DirectoryFragment extends Fragment {
         fs.file = new File("/");
         items.add(fs);
 
-        // try {
-        // File telegramPath = new
-        // File(Environment.getExternalStorageDirectory(), "Telegram");
-        // if (telegramPath.exists()) {
-        // fs = new ListItem();
-        // fs.title = "Telegram";
-        // fs.subtitle = telegramPath.toString();
-        // fs.icon = R.drawable.file_ic_directory;
-        // fs.file = telegramPath;
-        // items.add(fs);
-        // }
-        // } catch (Exception e) {
-        // FileLog.e("tmessages", e);
-        // }
-
-        // AndroidUtilities.clearDrawableAnimation(listView);
-        // scrolling = true;
         listAdapter.notifyDataSetChanged();
+
     }
 
     private boolean listFiles(File dir) {
+
         if (!dir.canRead()) {
+
             if (dir.getAbsolutePath().startsWith(
                     Environment.getExternalStorageDirectory().toString())
                     || dir.getAbsolutePath().startsWith("/sdcard")
                     || dir.getAbsolutePath().startsWith("/mnt/sdcard")) {
+
                 if (!Environment.getExternalStorageState().equals(
                         Environment.MEDIA_MOUNTED)
                         && !Environment.getExternalStorageState().equals(
                         Environment.MEDIA_MOUNTED_READ_ONLY)) {
+
                     currentDir = dir;
                     items.clear();
+
                     String state = Environment.getExternalStorageState();
+
                     if (Environment.MEDIA_SHARED.equals(state)) {
                         emptyView.setText("UsbActive");
                     } else {
                         emptyView.setText("NotMounted");
                     }
+
                     clearDrawableAnimation(listView);
                     // scrolling = true;
                     listAdapter.notifyDataSetChanged();
@@ -370,8 +377,10 @@ public class DirectoryFragment extends Fragment {
             showErrorBox(getString(R.string.file_manager_error_access));
             return false;
         }
+
         emptyView.setText("NoFiles");
-        File[] files = null;
+        File[] files;
+
         try {
             files = dir.listFiles();
         } catch (Exception e) {
@@ -382,8 +391,10 @@ public class DirectoryFragment extends Fragment {
             showErrorBox("UnknownError");
             return false;
         }
+
         currentDir = dir;
         items.clear();
+
         Arrays.sort(files, new Comparator<File>() {
             @Override
             public int compare(File lhs, File rhs) {
@@ -391,41 +402,36 @@ public class DirectoryFragment extends Fragment {
                     return lhs.isDirectory() ? -1 : 1;
                 }
                 return lhs.getName().compareToIgnoreCase(rhs.getName());
-                /*
-                 * long lm = lhs.lastModified(); long rm = lhs.lastModified();
-				 * if (lm == rm) { return 0; } else if (lm > rm) { return -1; }
-				 * else { return 1; }
-				 */
             }
         });
 
-        //Проходим файлы каталого и деректории
+
         for (File file : files) {
             if (file.getName().startsWith(".")) {
                 continue;
             }
+
             ListItem item = new ListItem();
             item.title = file.getName();
             item.file = file;
 
-            //Если это деректория
+            //if this is a folder
             if (file.isDirectory()) {
                 item.icon = R.drawable.ic_folder;
                 item.subtitle = "Folder";
-            }
+            }//or file
             else {
-                String fname = file.getName();
-                String[] sp = fname.split("\\.");
+                String[] sp =  file.getName().split("\\.");
                 item.ext = sp.length > 1 ? sp[sp.length - 1] : "?";
                 item.subtitle = formatFileSize(file.length());
-                fname = fname.toLowerCase();
 
                 item.thumb = file.getAbsolutePath();
-
-
+                item.icon = R.drawable.ic_file;
             }
+
             items.add(item);
         }
+
         ListItem item = new ListItem();
         item.title = "..";
         item.subtitle = "Folder";
@@ -433,7 +439,6 @@ public class DirectoryFragment extends Fragment {
         item.file = null;
         items.add(0, item);
         clearDrawableAnimation(listView);
-        // scrolling = true;
         listAdapter.notifyDataSetChanged();
         return true;
     }
@@ -524,7 +529,6 @@ public class DirectoryFragment extends Fragment {
             if (convertView == null) {
                 convertView = new TextDetailDocumentsCell(mContext);
             }
-            TextDetailDocumentsCell textDetailCell = (TextDetailDocumentsCell) convertView;
             ListItem item = items.get(position);
             if (item.icon != 0) {
                 ((TextDetailDocumentsCell) convertView)

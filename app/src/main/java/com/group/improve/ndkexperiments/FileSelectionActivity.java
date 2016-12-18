@@ -1,8 +1,5 @@
 package com.group.improve.ndkexperiments;
 
-import java.util.ArrayList;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -40,22 +37,6 @@ public class FileSelectionActivity extends AppCompatActivity {
         fragmentTransaction = fragmentManager.beginTransaction();
 
         mDirectoryFragment = new DirectoryFragment();
-        mDirectoryFragment.setDelegate(new DirectoryFragment.DocumentSelectActivityDelegate() {
-
-            @Override
-            public void startDocumentSelectActivity() {
-            }
-
-            @Override
-            public void didSelectFiles(DirectoryFragment activity,
-                                       ArrayList<String> files) {
-                mDirectoryFragment.showErrorBox(files.get(0).toString());
-            }
-
-            @Override
-            public void updateToolBarName(String name) {
-            }
-        });
         fragmentTransaction.add(R.id.fragment_container, mDirectoryFragment, "" + mDirectoryFragment.toString());
         fragmentTransaction.commit();
     }
