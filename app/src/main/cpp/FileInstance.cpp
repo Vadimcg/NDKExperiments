@@ -28,11 +28,11 @@ FileInstance::~FileInstance(){
 }
 
 
-int FileInstance::getSize(){
+int FileInstance::getSize() const{
     return this->size_;
 }
 
-std::string FileInstance::getName(){
+std::string FileInstance::getName() const{
     return this->name_;
 }
 
@@ -49,4 +49,27 @@ std::string FileInstance::getFileNameFromPath(const std::string& filePath) {
     }
     else
         return fileName;
+}
+
+
+bool FileInstance::encryptFile(){
+
+    std::ifstream peFileStream;
+    peFileStream.open (this->path_.c_str(),std::ios::binary);
+
+    if(peFileStream.is_open()){
+
+        std::cout<<"File was opened successful!"<< std::endl;
+
+        char* value=new char[1];
+        peFileStream.read(value,1);
+
+        return true;
+    } else{
+
+
+        std::cout<<"Fail, while  openning file!"<< std::endl;
+        return false;
+    }
+
 }

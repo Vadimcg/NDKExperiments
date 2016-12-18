@@ -1,5 +1,7 @@
 #import <algorithm>
 #import <string>
+#include <fstream>
+#include <iostream>
 
 
 #ifndef NDKEXPERIMENTS_FILEINSTANCE_H
@@ -14,7 +16,13 @@ private:
     std::string name_;
     std::string path_;
 
+    /**
+     * Function return name and type of file
+     */
     std::string getFileNameFromPath(const std::string& filePath);
+
+
+
 
 public:
 
@@ -24,8 +32,10 @@ public:
 
     ~FileInstance();
 
-    int getSize();
-    std::string getName();
+    int getSize() const;
+    std::string getName() const;
+
+    bool encryptFile();
 
 };
 
