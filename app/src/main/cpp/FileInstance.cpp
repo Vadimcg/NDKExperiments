@@ -66,8 +66,6 @@ bool FileInstance::encryptFile(){
 
         return true;
     } else{
-
-
         std::cout<<"Fail, while  openning file!"<< std::endl;
         return false;
     }
