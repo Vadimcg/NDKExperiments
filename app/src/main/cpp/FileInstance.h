@@ -1,8 +1,8 @@
 #import <algorithm>
 #import <string>
-#include <fstream>
-#include <iostream>
-
+#import <fstream>
+#import <iostream>
+#import "aes/aes.h"
 
 #ifndef NDKEXPERIMENTS_FILEINSTANCE_H
 #define NDKEXPERIMENTS_FILEINSTANCE_H
@@ -20,9 +20,6 @@ private:
      * Function return name and type of file
      */
     std::string getFileNameFromPath(const std::string& filePath);
-
-
-
 
 public:
 

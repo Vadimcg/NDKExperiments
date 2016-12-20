@@ -61,8 +61,18 @@ bool FileInstance::encryptFile(){
 
         std::cout<<"File was opened successful!"<< std::endl;
 
-        char* value=new char[1];
-        peFileStream.read(value,1);
+        unsigned int* key=new unsigned int[128];
+        unsigned char*user_code=new unsigned char[5];
+        user_code[0]='V';
+        user_code[1]='a';
+        user_code[2]='d';
+        user_code[3]='i';
+        user_code[4]='m';
+        aes_key_setup(user_code,key,128);
+
+        int size=sizeof(key);
+        /*char* value=new char[1];
+        peFileStream.read(value,1);*/
 
         return true;
     } else{
