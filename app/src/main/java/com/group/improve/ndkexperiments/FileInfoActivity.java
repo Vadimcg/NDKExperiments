@@ -20,10 +20,10 @@ public class FileInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Bundle p = getIntent().getExtras();
-        this.encryptFile(p.getString(FileSelectionActivity.PATH));
+        this.encryptFile("/storage/emulated/0/Download/Test","(test_code_123_!)");
     }
 
 
-    public native void encryptFile(String path);
+    public native void encryptFile(String path,String code);
 
 }

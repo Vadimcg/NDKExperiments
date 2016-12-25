@@ -12,18 +12,28 @@ class FileInstance {
 
 private:
 
+    const int AES_KEY_SIZE=256;
+
+
     int size_;
+
     std::string name_;
     std::string path_;
+
+    unsigned char* code_;
 
     /**
      * Function return name and type of file
      */
     std::string getFileNameFromPath(const std::string& filePath);
 
+
+    unsigned char* hashCode(std::string &userCode);
+
+
 public:
 
-    FileInstance(std::string& path_);
+    FileInstance(std::string& path_,std::string& code_);
     FileInstance(const FileInstance& value);
     FileInstance(FileInstance&& value);
 
