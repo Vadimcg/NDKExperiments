@@ -3,6 +3,7 @@
 #import <fstream>
 #import <iostream>
 #import "aes/aes.h"
+#include <sstream>
 
 #ifndef NDKEXPERIMENTS_FILEINSTANCE_H
 #define NDKEXPERIMENTS_FILEINSTANCE_H
@@ -13,7 +14,6 @@ class FileInstance {
 private:
 
     const int AES_KEY_SIZE=256;
-
 
     int size_;
 
@@ -29,6 +29,13 @@ private:
 
 
     unsigned char* hashCode(std::string &userCode);
+
+    template <typename T>
+    std::string to_string(T value) {
+        std::ostringstream os ;
+        os << value ;
+        return os.str() ;
+    }
 
 
 public:

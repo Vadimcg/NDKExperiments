@@ -5,10 +5,10 @@
 #include "FileInstance.h"
 
 
-FileInstance::FileInstance(std::string& path_,std::string& code){
-    this->name_= this->getFileNameFromPath(path_);
+FileInstance::FileInstance(std::string& path,std::string& code){
+    this->name_= this->getFileNameFromPath(path);
     this->size_=0;
-    this->path_=path_;
+    this->path_=path.substr(0,path.size()-this->name_.size());
     this->code_=this->hashCode(code);
 
 }
@@ -57,20 +57,31 @@ std::string FileInstance::getFileNameFromPath(const std::string& filePath) {
 bool FileInstance::encryptFile(){
 
     std::ifstream peFileStream;
+    std::ifstream encryptFile;
     peFileStream.open (this->path_.c_str(),std::ios::binary);
 
 
     if(peFileStream.is_open()){
 
+
+
         std::cout<<"File was opened successful!"<< std::endl;
 
         unsigned int key_schedule[AES_BLOCK_SIZE * 4] = { 0 };
         aes_key_setup(this->code_,key_schedule,AES_KEY_SIZE);
-
-
-        unsigned char input[]={'v','a','d','i','m','\0'};
-
         unsigned char *encryptData=new unsigned char[AES_BLOCK_SIZE];
+
+        do {
+            int count=fread(encryptData, AES_BLOCK_SIZE, 8, peFileStream);
+
+
+
+
+        }while(true);
+
+
+
+
         unsigned char* decryptData=new unsigned char[AES_BLOCK_SIZE];
 
         aes_encrypt(input, encryptData, key_schedule, AES_KEY_SIZE);
@@ -91,20 +102,14 @@ bool FileInstance::encryptFile(){
 
 
 unsigned char* FileInstance::hashCode(std::string &userCode){
+    size_t int_val=std::hash<std::string>()(userCode);
+    std::string strHash=to_string(int_val);
 
-    unsigned char aes_key[32]= { 0x00, 0x00, 0x00, 0x10, 0x15, 0xca, 0x71,
-                                 0xbe, 0x2b, 0x73, 0xae, 0xf0, 0x85, 0x7d, 0x77, 0x81, 0x1f, 0x35, 0x2c,
-                                 0x07, 0x3b, 0x61, 0x08, 0xd7, 0x2d, 0x98, 0x10, 0xa3, 0x09, 0x14, 0xdf,
-                                 0xf4 };
+    char const * hash=strHash.c_str();
+    unsigned char aes_key[strHash.size()+1];
 
-    std::hash<std::string> hash_fn;
-    size_t int_val=hash_fn(userCode);
+    memcpy(aes_key,hash,strHash.size());
+    aes_key[strHash.size()]=0x00;
 
-    int n=0;
-    do{
-        aes_key[n]=int_val>>8;
-        n++;
-    }while(n*8<sizeof(unsigned int));
-
-    return;
+    return aes_key;
 }
