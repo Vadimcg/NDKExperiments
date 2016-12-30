@@ -2,43 +2,18 @@
 // Created by vadimcg on 13.12.16.
 //
 
-#include "FileInstance.h"
+#include "FileCryptor.h"
 
 
-FileInstance::FileInstance(std::string& path,std::string& code){
-    this->name_= this->getFileNameFromPath(path);
-    this->size_=0;
-    this->path_=path.substr(0,path.size()-this->name_.size());
-    this->code_=this->hashCode(code);
-
-}
-
-FileInstance::FileInstance(const FileInstance& value){
-    this->name_=value.name_;
-    this->size_=value.size_;
-    this->path_=value.path_;
-}
-
-FileInstance::FileInstance(FileInstance&& value){
-    this->name_=value.name_;
-    this->size_=value.size_;
-    this->path_=value.path_;
-}
-
-
-FileInstance::~FileInstance(){
-}
-
-
-int FileInstance::getSize() const{
+int FileCryptor::getSize() const{
     return this->size_;
 }
 
-std::string FileInstance::getName() const{
+std::string FileCryptor::getName() const{
     return this->name_;
 }
 
-std::string FileInstance::getFileNameFromPath(const std::string& filePath) {
+std::string FileCryptor::getFileNameFromPath(const std::string& filePath) {
 
     std::string fileName;
 
@@ -54,7 +29,12 @@ std::string FileInstance::getFileNameFromPath(const std::string& filePath) {
 }
 
 
-bool FileInstance::encryptFile(){
+bool FileCryptor::encryptFile(std::string& path,std::string& code){
+
+    this->name_= this->getFileNameFromPath(path);
+    this->size_=0;
+    this->path_=path.substr(0,path.size()-this->name_.size());
+    this->code_=this->hashCode(code);
 
     std::ifstream originalFile;
     std::ofstream encryptFile(this->encryptedFilePath(),std::ios::binary);
@@ -106,7 +86,7 @@ bool FileInstance::encryptFile(){
 
 
 
-unsigned char* FileInstance::hashCode(std::string &userCode){
+unsigned char* FileCryptor::hashCode(std::string &userCode){
     
     size_t int_val=std::hash<std::string>()(userCode);
     std::string strHash=to_string(int_val);
@@ -121,15 +101,15 @@ unsigned char* FileInstance::hashCode(std::string &userCode){
 }
 
 
-std::string FileInstance::getCryptedFileName(){
+std::string FileCryptor::getCryptedFileName(){
     return ANNEX+this->name_ ;
 }
 
-const char* FileInstance::originalFilePath(){
+const char* FileCryptor::originalFilePath(){
     return (this->path_+this->name_).c_str();
 }
 
-const char* FileInstance::encryptedFilePath(){
+const char* FileCryptor::encryptedFilePath(){
     return (this->path_+this->getCryptedFileName()).c_str();
 }
 

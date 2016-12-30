@@ -8,8 +8,10 @@
 #ifndef NDKEXPERIMENTS_FILEINSTANCE_H
 #define NDKEXPERIMENTS_FILEINSTANCE_H
 
-
-class FileInstance {
+/*
+ * This class helps us to crypt files
+ */
+class FileCryptor {
 
 private:
 
@@ -27,15 +29,20 @@ private:
      * Function return name and type of file
      */
     std::string getFileNameFromPath(const std::string& filePath);
-
-
+    /**
+     * This function makes hash from user's special code
+     */
     unsigned char* hashCode(std::string &userCode);
+
     std::string getCryptedFileName();
-
+    /**
+     * Getting original file path
+     */
     const char* originalFilePath();
+    /**
+   * Getting original path for crypted file
+   */
     const char* encryptedFilePath();
-
-
 
     template <typename T>
     std::string to_string(T value) {
@@ -44,22 +51,20 @@ private:
         return os.str() ;
     }
 
-
-
-
+    FileCryptor(){}
 
 public:
 
-    FileInstance(std::string& path_,std::string& code_);
-    FileInstance(const FileInstance& value);
-    FileInstance(FileInstance&& value);
-
-    ~FileInstance();
+    static FileCryptor& Instance() {
+        static FileCryptor instance;
+        return instance;
+    }
 
     int getSize() const;
     std::string getName() const;
 
-    bool encryptFile();
+    bool encryptFile(std::string& path,std::string& code);
+
 
 };
 

@@ -17,7 +17,7 @@ add_library( # Sets the name of the library.
              # file are automatically included.
              src/main/cpp/native-lib.cpp
              src/main/cpp/fileIO.cpp
-             src/main/cpp/FileInstance.cpp
+             src/main/cpp/FileCryptor.cpp
              src/main/cpp/aes/aes.cpp
              )
 
