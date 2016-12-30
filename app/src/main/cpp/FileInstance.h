@@ -14,6 +14,7 @@ class FileInstance {
 private:
 
     const int AES_KEY_SIZE=256;
+    const std::string ANNEX="crypted_";
 
     int size_;
 
@@ -29,6 +30,12 @@ private:
 
 
     unsigned char* hashCode(std::string &userCode);
+    std::string getCryptedFileName();
+
+    const char* originalFilePath();
+    const char* encryptedFilePath();
+
+
 
     template <typename T>
     std::string to_string(T value) {
@@ -36,6 +43,9 @@ private:
         os << value ;
         return os.str() ;
     }
+
+
+
 
 
 public:

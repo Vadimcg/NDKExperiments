@@ -56,36 +56,41 @@ std::string FileInstance::getFileNameFromPath(const std::string& filePath) {
 
 bool FileInstance::encryptFile(){
 
-    std::ifstream peFileStream;
-    std::ifstream encryptFile;
-    peFileStream.open (this->path_.c_str(),std::ios::binary);
+    std::ifstream originalFile;
+    std::ofstream encryptFile(this->encryptedFilePath(),std::ios::binary);
 
+    originalFile.open (this->originalFilePath(),std::ios::binary);
 
-    if(peFileStream.is_open()){
+    if(originalFile.is_open()){
 
+        if(encryptFile.is_open()){
 
+        }else{
+            std::cout<<"Fail, while  creating cypted file!"<< std::endl;
+            return false;
+        }
 
         std::cout<<"File was opened successful!"<< std::endl;
 
-        unsigned int key_schedule[AES_BLOCK_SIZE * 4] = { 0 };
+        /*unsigned int key_schedule[AES_BLOCK_SIZE * 4] = { 0 };
         aes_key_setup(this->code_,key_schedule,AES_KEY_SIZE);
         unsigned char *encryptData=new unsigned char[AES_BLOCK_SIZE];
 
         do {
-            int count=fread(encryptData, AES_BLOCK_SIZE, 8, peFileStream);
+            int count=fread(encryptData, AES_BLOCK_SIZE, 8, originalFile);
 
 
 
 
-        }while(true);
+        }while(true);*/
 
 
 
 
-        unsigned char* decryptData=new unsigned char[AES_BLOCK_SIZE];
+        //unsigned char* decryptData=new unsigned char[AES_BLOCK_SIZE];
 
-        aes_encrypt(input, encryptData, key_schedule, AES_KEY_SIZE);
-        aes_decrypt(encryptData,decryptData,key_schedule,AES_KEY_SIZE);
+        //aes_encrypt(input, encryptData, key_schedule, AES_KEY_SIZE);
+        //aes_decrypt(encryptData,decryptData,key_schedule,AES_KEY_SIZE);
 
         /*char* value=new char[1];
         peFileStream.read(value,1);*/
@@ -93,7 +98,7 @@ bool FileInstance::encryptFile(){
         return true;
     } else{
 
-        std::cout<<"Fail, while  openning file!"<< std::endl;
+        std::cout<<"Fail, while  openning original file!"<< std::endl;
         return false;
 
     }
@@ -102,6 +107,7 @@ bool FileInstance::encryptFile(){
 
 
 unsigned char* FileInstance::hashCode(std::string &userCode){
+    
     size_t int_val=std::hash<std::string>()(userCode);
     std::string strHash=to_string(int_val);
 
@@ -113,3 +119,19 @@ unsigned char* FileInstance::hashCode(std::string &userCode){
 
     return aes_key;
 }
+
+
+std::string FileInstance::getCryptedFileName(){
+    return ANNEX+this->name_ ;
+}
+
+const char* FileInstance::originalFilePath(){
+    return (this->path_+this->name_).c_str();
+}
+
+const char* FileInstance::encryptedFilePath(){
+    return (this->path_+this->getCryptedFileName()).c_str();
+}
+
+
+
