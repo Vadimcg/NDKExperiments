@@ -16,7 +16,6 @@ std::string FileCryptor::getName() const{
 std::string FileCryptor::getFileNameFromPath(const std::string& filePath) {
 
     std::string fileName;
-
     std::string::const_reverse_iterator it = std::find(filePath.rbegin(), filePath.rend(), '/');
 
     if (it != filePath.rend()) {
@@ -36,14 +35,40 @@ bool FileCryptor::encryptFile(std::string& path,std::string& code){
     this->path_=path.substr(0,path.size()-this->name_.size());
     this->code_=this->hashCode(code);
 
-    std::ifstream originalFile;
-    std::ofstream encryptFile(this->encryptedFilePath(),std::ios::binary);
+    FILE* originalFile;
+    FILE* encryptFile;
 
-    originalFile.open (this->originalFilePath(),std::ios::binary);
+    originalFile=fopen(this->originalFilePath(),"rb");
+    encryptFile=fopen(this->encryptedFilePath(),"wb");
 
-    if(originalFile.is_open()){
+    if(originalFile!= nullptr){
 
-        if(encryptFile.is_open()){
+        if(encryptFile!= nullptr){
+
+            unsigned int key_schedule[AES_BLOCK_SIZE * 4] = { 0 };
+            aes_key_setup(this->code_,key_schedule,AES_KEY_SIZE);
+
+
+            unsigned char *encryptData=new unsigned char[AES_BLOCK_SIZE];
+            unsigned char* origineData=new unsigned char[AES_BLOCK_SIZE];
+
+            do {
+
+                int countOfReaded=fread(origineData, AES_BLOCK_SIZE, 1, originalFile);
+
+                if(countOfReaded!=0){
+                    aes_encrypt(origineData, encryptData, key_schedule, AES_KEY_SIZE);
+                    int countOfWrited=fwrite(encryptData,AES_BLOCK_SIZE,1,encryptFile);
+                }
+
+                if(countOfReaded==0){
+                    std::cout<<"End of file!"<< std::endl;
+                    break;
+                }
+
+
+            }while(true);
+
 
         }else{
             std::cout<<"Fail, while  creating cypted file!"<< std::endl;
@@ -52,17 +77,7 @@ bool FileCryptor::encryptFile(std::string& path,std::string& code){
 
         std::cout<<"File was opened successful!"<< std::endl;
 
-        /*unsigned int key_schedule[AES_BLOCK_SIZE * 4] = { 0 };
-        aes_key_setup(this->code_,key_schedule,AES_KEY_SIZE);
-        unsigned char *encryptData=new unsigned char[AES_BLOCK_SIZE];
 
-        do {
-            int count=fread(encryptData, AES_BLOCK_SIZE, 8, originalFile);
-
-
-
-
-        }while(true);*/
 
 
 
