@@ -57,8 +57,13 @@ bool FileCryptor::encryptFile(std::string& path,std::string& code){
                 int countOfReaded=fread(origineData, AES_BLOCK_SIZE, 1, originalFile);
 
                 if(countOfReaded!=0){
+
                     aes_encrypt(origineData, encryptData, key_schedule, AES_KEY_SIZE);
                     int countOfWrited=fwrite(encryptData,AES_BLOCK_SIZE,1,encryptFile);
+
+                    if(countOfWrited==0){
+                        std::cout<<"Error of writing!"<< std::endl;
+                    }
                 }
 
                 if(countOfReaded==0){
@@ -69,6 +74,8 @@ bool FileCryptor::encryptFile(std::string& path,std::string& code){
 
             }while(true);
 
+            fclose(originalFile);
+            fclose(encryptFile);
 
         }else{
             std::cout<<"Fail, while  creating cypted file!"<< std::endl;
@@ -128,5 +135,16 @@ const char* FileCryptor::encryptedFilePath(){
     return (this->path_+this->getCryptedFileName()).c_str();
 }
 
+
+void FileCryptor::zeroingBuffer(unsigned char * buffer){
+
+    for(int i=0;i<AES_BLOCK_SIZE;i++){
+        buffer[i]=0;
+    }
+}
+
+bool FileCryptor::bufferIsEmpty(unsigned char* buffer){
+    return  buffer[0]==0 && buffer[1]==0 && buffer[2]==0;
+}
 
 

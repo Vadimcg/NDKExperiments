@@ -53,6 +53,9 @@ private:
 
     FileCryptor(){}
 
+    void zeroingBuffer(unsigned char * buffer);
+    bool bufferIsEmpty(unsigned char* buffer);
+
 public:
 
     static FileCryptor& Instance() {
