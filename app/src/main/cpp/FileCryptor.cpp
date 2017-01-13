@@ -54,19 +54,19 @@ bool FileCryptor::encryptFile(std::string& path,std::string& code){
 
             do {
 
-                int countOfReaded=fread(origineData, AES_BLOCK_SIZE, 1, originalFile);
+                int countOfReaded=fread(origineData, AES_BLOCK_SIZE, COUNT_OF_BLOCKS, originalFile);
 
-                if(countOfReaded!=0){
+                if(countOfReaded!=0 || !this->bufferIsEmpty(origineData)){
 
                     aes_encrypt(origineData, encryptData, key_schedule, AES_KEY_SIZE);
-                    int countOfWrited=fwrite(encryptData,AES_BLOCK_SIZE,1,encryptFile);
+                    int countOfWrited=fwrite(encryptData,AES_BLOCK_SIZE,COUNT_OF_BLOCKS,encryptFile);
 
                     if(countOfWrited==0){
                         std::cout<<"Error of writing!"<< std::endl;
                     }
-                }
 
-                if(countOfReaded==0){
+                    this->zeroingBuffer(origineData);
+                } else{
                     std::cout<<"End of file!"<< std::endl;
                     break;
                 }
@@ -105,8 +105,6 @@ bool FileCryptor::encryptFile(std::string& path,std::string& code){
 
     }
 }
-
-
 
 unsigned char* FileCryptor::hashCode(std::string &userCode){
     

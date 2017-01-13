@@ -15,6 +15,8 @@ class FileCryptor {
 
 private:
 
+    const int COUNT_OF_BLOCKS=1;
+
     const int AES_KEY_SIZE=256;
     const std::string ANNEX="crypted_";
 
